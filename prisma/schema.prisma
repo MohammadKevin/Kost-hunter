@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  society
+  owner
+}
+
+enum Gender {
+  male
+  female
+  all
+}
+
+enum Status {
+  pending
+  accept
+  reject
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+  phone    String
+  role     Role   @default(society)
+
+  kos     Kos[]
+  reviews Review[]
+  books   Book[]
+}
+
+model Kos {
+  id            Int    @id @default(autoincrement())
+  userId        Int
+  name          String
+  address       String
+  pricePerMonth Float
+  gender        Gender
+
+  owner      User          @relation(fields: [userId], references: [id])
+  images     KosImage[]
+  facilities KosFacility[]
+  reviews    Review[]
+  books      Book[]
+}
+
+model KosImage {
+  id    Int    @id @default(autoincrement())
+  kosId Int
+  file  String
+
+  kos Kos @relation(fields: [kosId], references: [id])
+}
+
+model KosFacility {
+  id       Int    @id @default(autoincrement())
+  kosId    Int
+  facility String
+
+  kos Kos @relation(fields: [kosId], references: [id])
+}
+
+model Review {
+  id      Int    @id @default(autoincrement())
+  kosId   Int
+  userId  Int
+  comment String
+  reply   String?
+
+  kos  Kos  @relation(fields: [kosId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Book {
+  id        Int      @id @default(autoincrement())
+  kosId     Int
+  userId    Int
+  startDate DateTime
+  endDate   DateTime
+  status    Status   @default(pending)
+
+  kos  Kos  @relation(fields: [kosId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+}
