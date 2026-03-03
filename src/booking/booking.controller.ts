@@ -70,7 +70,6 @@ export class BookingController {
     );
   }
 
-  // ===================== SOCIETY DOWNLOAD BOOKING INVOICE (PDF)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('society')
   @Get(':id/invoice')

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsEnum } from 'class-validator';
+import { IsNotEmpty, IsString, IsEnum, IsNumber } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Gender } from '@prisma/client';
 
@@ -12,7 +12,8 @@ export class CreateKosDto {
   address!: string;
 
   @IsNotEmpty()
-  @Type(() => Number) // 🔥 INI KUNCINYA
+  @Type(() => Number)
+  @IsNumber()
   pricePerMonth!: number;
 
   @IsNotEmpty()
