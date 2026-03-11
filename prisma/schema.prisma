@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  phone     String
+  role      Role
+
+  kos       Kos[]
+  reviews   Review[]
+  books     Book[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Kos {
+  id             Int            @id @default(autoincrement())
+  user_id        Int
+  name           String
+  address        String
+  price_per_month Int
+  gender         Gender
+
+  owner          User           @relation(fields: [user_id], references: [id])
+  images         KosImage[]
+  facilities     KosFacility[]
+  reviews        Review[]
+  books          Book[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model KosImage {
+  id      Int    @id @default(autoincrement())
+  kos_id  Int
+  file    String
+
+  kos     Kos    @relation(fields: [kos_id], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model KosFacility {
+  id      Int    @id @default(autoincrement())
+  kos_id  Int
+  facility String
+
+  kos     Kos    @relation(fields: [kos_id], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id       Int    @id @default(autoincrement())
+  kos_id   Int
+  user_id  Int
+  comment  String
+  reply    String?
+
+  kos      Kos   @relation(fields: [kos_id], references: [id])
+  user     User  @relation(fields: [user_id], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model Book {
+  id         Int        @id @default(autoincrement())
+  kos_id     Int
+  user_id    Int
+  start_date DateTime
+  end_date   DateTime
+  status     BookingStatus @default(PENDING)
+
+  kos        Kos    @relation(fields: [kos_id], references: [id])
+  user       User   @relation(fields: [user_id], references: [id])
+
+  createdAt  DateTime @default(now())
+}
+
+enum Role {
+  OWNER
+  SOCIETY
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  ALL
+}
+
+enum BookingStatus {
+  PENDING
+  ACCEPT
+  REJECT
+}
