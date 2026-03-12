@@ -30,39 +30,39 @@ model User {
 }
 
 model Kos {
-  id             Int            @id @default(autoincrement())
-  user_id        Int
-  name           String
-  address        String
+  id              Int           @id @default(autoincrement())
+  user_id         Int
+  name            String
+  address         String
   price_per_month Int
-  gender         Gender
+  gender          Gender
 
-  owner          User           @relation(fields: [user_id], references: [id])
-  images         KosImage[]
-  facilities     KosFacility[]
-  reviews        Review[]
-  books          Book[]
+  owner           User          @relation(fields: [user_id], references: [id])
+  images          KosImage[]
+  facilities      KosFacility[]
+  reviews         Review[]
+  books           Book[]
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model KosImage {
-  id      Int    @id @default(autoincrement())
-  kos_id  Int
-  file    String
+  id        Int    @id @default(autoincrement())
+  kos_id    Int
+  file      String
 
-  kos     Kos    @relation(fields: [kos_id], references: [id])
+  kos       Kos    @relation(fields: [kos_id], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
 }
 
 model KosFacility {
-  id      Int    @id @default(autoincrement())
-  kos_id  Int
+  id       Int    @id @default(autoincrement())
+  kos_id   Int
   facility String
 
-  kos     Kos    @relation(fields: [kos_id], references: [id], onDelete: Cascade)
+  kos      Kos    @relation(fields: [kos_id], references: [id], onDelete: Cascade)
 }
 
 model Review {
@@ -72,22 +72,22 @@ model Review {
   comment  String
   reply    String?
 
-  kos      Kos   @relation(fields: [kos_id], references: [id])
-  user     User  @relation(fields: [user_id], references: [id])
+  kos      Kos    @relation(fields: [kos_id], references: [id], onDelete: Cascade)
+  user     User   @relation(fields: [user_id], references: [id])
 
   createdAt DateTime @default(now())
 }
 
 model Book {
-  id         Int        @id @default(autoincrement())
+  id         Int           @id @default(autoincrement())
   kos_id     Int
   user_id    Int
   start_date DateTime
   end_date   DateTime
   status     BookingStatus @default(PENDING)
 
-  kos        Kos    @relation(fields: [kos_id], references: [id])
-  user       User   @relation(fields: [user_id], references: [id])
+  kos        Kos  @relation(fields: [kos_id], references: [id], onDelete: Cascade)
+  user       User @relation(fields: [user_id], references: [id])
 
   createdAt  DateTime @default(now())
 }
