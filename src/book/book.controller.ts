@@ -72,9 +72,11 @@ export class BookController {
 
     return this.bookService.findByMonth(Number(month), Number(year));
   }
-
   @Get('nota/:id')
   @ApiOperation({ summary: 'Mencetak nota PDF berdasarkan id booking' })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('SOCIETY')
   async generate(@Param('id') id: string, @Res() res: Response) {
     const booking = await this.bookService.findById(Number(id));
 
