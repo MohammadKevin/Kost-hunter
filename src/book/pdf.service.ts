@@ -18,65 +18,79 @@ interface Booking {
   kos?: {
     name?: string;
     price_per_month?: number;
-    images?: {
-      file: string;
-    }[];
-    facilities?: {
-      facility: string;
-    }[];
+    images?: { file: string }[];
+    facilities?: { facility: string }[];
   };
 }
 
 @Injectable()
 export class PdfService {
   generate(res: Response, booking: Booking) {
-    const doc = new PDFDocument({ margin: 50 });
+    const doc = new PDFDocument({
+      margin: 30,
+      size: [220, 600], // seperti struk thermal
+    });
 
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader(
       'Content-Disposition',
-      `inline; filename=nota-booking-${booking.id}.pdf`,
+      `inline; filename=KOSID-struk-${booking.id}.pdf`,
     );
 
     doc.pipe(res);
 
-    doc.fontSize(20).text('NOTA BOOKING KOS', {
-      align: 'center',
-    });
+    // ===== HEADER =====
+    doc.font('Courier-Bold').fontSize(14);
+    doc.text('KOS.ID', { align: 'center' });
 
-    doc.moveDown();
+    doc.fontSize(10);
+    doc.text('NOTA BOOKING KOS', { align: 'center' });
 
-    doc.fontSize(14).text(`ID Booking : ${booking.id}`);
-    doc.text(`Nama User : ${booking.user?.name ?? '-'}`);
-    doc.text(`Email : ${booking.user?.email ?? '-'}`);
-    doc.text(`Nama Kos : ${booking.kos?.name ?? '-'}`);
-    doc.text(`Harga / bulan : ${booking.kos?.price_per_month ?? '-'}`);
+    doc.moveDown(0.5);
+    doc.text('==============================', { align: 'center' });
 
-    const facilities =
-      booking.kos?.facilities?.map((f) => f.facility).join(', ') ?? '-';
+    // ===== INFO =====
+    doc.font('Courier').fontSize(9);
+    doc.text(`ID   : ${booking.id}`);
+    doc.text(`USER : ${booking.user?.name ?? '-'}`);
+    doc.text(`EMAIL: ${booking.user?.email ?? '-'}`);
 
-    doc.text(`Fasilitas : ${facilities}`);
+    doc.text('------------------------------');
 
-    doc.moveDown(2);
-
+    // ===== KOS =====
+    doc.text(`KOS  : ${booking.kos?.name ?? '-'}`);
     doc.text(
-      `Tanggal Mulai : ${
-        booking.start_date
-          ? new Date(booking.start_date).toLocaleDateString()
-          : '-'
-      }`,
+      `HARGA: Rp ${booking.kos?.price_per_month?.toLocaleString() ?? '-'}`,
     );
 
+    doc.text('------------------------------');
+
+    // ===== FACILITY =====
+    doc.text('FASILITAS:');
+
+    const facilities = booking.kos?.facilities?.length
+      ? booking.kos.facilities.map((f) => `- ${f.facility}`).join('\n')
+      : '-';
+
+    doc.text(facilities);
+
+    doc.text('------------------------------');
+
+    // ===== DATE =====
     doc.text(
-      `Tanggal Selesai : ${
-        booking.end_date ? new Date(booking.end_date).toLocaleDateString() : '-'
-      }`,
+      `START: ${booking.start_date ? new Date(booking.start_date).toLocaleDateString() : '-'}`,
+    );
+    doc.text(
+      `END  : ${booking.end_date ? new Date(booking.end_date).toLocaleDateString() : '-'}`,
     );
 
-    doc.text(`Status : ${booking.status ?? '-'}`);
+    doc.text(`STATUS: ${booking.status ?? '-'}`);
 
-    doc.moveDown();
-    doc.text(`Tanggal Cetak : ${new Date().toLocaleString()}`);
+    doc.text('==============================');
+
+    // ===== FOOTER =====
+    doc.text('Terima kasih 🙏', { align: 'center' });
+    doc.text('Simpan struk ini sebagai bukti', { align: 'center' });
 
     doc.end();
   }
