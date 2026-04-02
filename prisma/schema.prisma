@@ -19,7 +19,7 @@ model User {
   email     String   @unique
   password  String
   phone     String
-  role      Role
+  role      Role     @default(SOCIETY)
 
   kos       Kos[]
   reviews   Review[]
