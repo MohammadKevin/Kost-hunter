@@ -3,5 +3,5 @@ import { BookingStatus } from '@prisma/client';
 
 export class UpdateBookStatusDto {
   @IsEnum(BookingStatus)
-  status: BookingStatus | undefined;
+  status!: BookingStatus;
 }

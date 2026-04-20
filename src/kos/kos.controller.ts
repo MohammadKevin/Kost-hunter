@@ -20,7 +20,7 @@ import { Gender } from '@prisma/client';
 import { KosService } from './kos.service';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { RolesGuard } from '../auth/guard/roles.guard';
-import { Roles } from '../auth/decorators/roles.decorator';
+import { Roles } from '../auth/decorators/roles.decorators';
 import { CreateKosDto } from './dto/create-kos.dto';
 import { UpdateKosDto } from './dto/update-kos.dto';
 import { multerConfig } from './multer.config';
@@ -39,6 +39,7 @@ export class KosController {
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   @Roles('OWNER')
   @UseInterceptors(FileInterceptor('image', multerConfig))
   create(
@@ -61,6 +62,7 @@ export class KosController {
 
   @Put(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   @Roles('OWNER')
   @UseInterceptors(FileInterceptor('image', multerConfig))
   update(
@@ -73,6 +75,7 @@ export class KosController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   @Roles('OWNER')
   remove(@Param('id') id: string) {
     return this.kosService.remove(Number(id));
