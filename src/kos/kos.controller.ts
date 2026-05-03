@@ -12,10 +12,6 @@ import {
   ParseEnumPipe,
   Req,
 } from '@nestjs/common';
-import { Request } from 'express';
-import { FileInterceptor } from '@nestjs/platform-express';
-import type { Express } from 'express';
-import { Gender } from '@prisma/client';
 
 import { KosService } from './kos.service';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
@@ -24,6 +20,8 @@ import { Roles } from '../auth/decorators/roles.decorators';
 import { CreateKosDto } from './dto/create-kos.dto';
 import { UpdateKosDto } from './dto/update-kos.dto';
 import { multerConfig } from './multer.config';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Gender } from '@prisma/client';
 
 interface RequestWithUser extends Request {
   user: {
