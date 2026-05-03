@@ -45,7 +45,7 @@ export class AuthService {
       email,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       password: hashedPassword,
-      role: 'SOCIETY',
+      role: dto.role || 'SOCIETY',
     });
 
     return {
