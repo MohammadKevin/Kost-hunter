@@ -12,19 +12,19 @@
 
 ---
 
-## 📌 Overview
+## Overview
 NestJS backend engine powering property listings, room availability updates, landlord verification, and tenant booking inquiries.
 
 ---
 
-## ✨ Key Features
+## Key Features
 - Property and room CRUD with geo-location coordinates
 - Tenant reservation processing and landlord notification pipeline
 - JWT authentication with role separation (Landlord, Tenant, Admin)
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 - **Framework**: NestJS
 - **Language**: TypeScript
 - **ORM**: Prisma ORM
@@ -32,7 +32,7 @@ NestJS backend engine powering property listings, room availability updates, lan
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 ```text
 Kost-hunter/
 ├── src/
@@ -44,7 +44,7 @@ Kost-hunter/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 Make sure you have the required runtimes and tools installed on your machine:
@@ -61,7 +61,7 @@ npm run start:dev
 
 ---
 
-## 👤 Author
+## Author
 **Mohammad Kevin Arif Rudianto**
 - **GitHub:** [@MohammadKevin](https://github.com/MohammadKevin)
 - **Portfolio:** [portfolio-mohammadkevin.vercel.app](https://portfolio-mohammadkevin.vercel.app)
@@ -70,9 +70,9 @@ npm run start:dev
 
 ---
 
-## 📄 License
+## License
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 <div align="center">
-⭐️ If you found this repository useful, please consider giving it a star!
+If you found this repository useful, please consider giving it a star!
 </div>
