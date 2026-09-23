@@ -18,9 +18,9 @@ NestJS backend engine powering property listings, room availability updates, lan
 ---
 
 ## ✨ Key Features
-- ⚡ **Property and room CRUD with geo-location coordinates**: Property and room CRUD with geo-location coordinates
-- ⚡ **Tenant reservation processing and landlord notification pipeline**: Tenant reservation processing and landlord notification pipeline
-- ⚡ **JWT authentication with role separation (Landlord, Tenant, Admin)**: JWT authentication with role separation (Landlord, Tenant, Admin)
+- Property and room CRUD with geo-location coordinates
+- Tenant reservation processing and landlord notification pipeline
+- JWT authentication with role separation (Landlord, Tenant, Admin)
 
 ---
 
